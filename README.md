@@ -69,7 +69,7 @@ Users can **sign up, log in, add tasks, mark them as completed, and delete tasks
 git clone https://github.com/your-username/TaskTracker.git
 cd TaskTracker/NovaTechnology_assignment
 
-2.**Backend Setup**
+2. **Backend Setup**
     cd Backend
     npm install
 Create a .env file:
