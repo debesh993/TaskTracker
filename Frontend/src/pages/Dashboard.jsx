@@ -19,7 +19,7 @@ const Dashboard = () => {
   const fetchTasks = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/tasks/get-tasks",
+        "https://task-tracker-backend-8b5a.onrender.com/api/tasks/get-tasks",
         { withCredentials: true }
       );
       setTasks(res.data.tasks);
@@ -51,7 +51,7 @@ const Dashboard = () => {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:5000/api/tasks/add-task",
+        "https://task-tracker-backend-8b5a.onrender.com/api/tasks/add-task",
         form,
         { withCredentials: true }
       );
@@ -72,7 +72,7 @@ const Dashboard = () => {
   const markCompleted = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/tasks/complete-task/${id}`,
+        `https://task-tracker-backend-8b5a.onrender.com/api/tasks/complete-task/${id}`,
         {},
         { withCredentials: true }
       );
@@ -85,7 +85,7 @@ const Dashboard = () => {
   const deleteTask = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/tasks/delete-task/${id}`,
+        `https://task-tracker-backend-8b5a.onrender.com/api/tasks/delete-task/${id}`,
         { withCredentials: true }
       );
       fetchTasks();

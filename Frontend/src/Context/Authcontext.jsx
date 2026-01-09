@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
     const verifyUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/auth/verify",
+          "https://task-tracker-backend-8b5a.onrender.com/api/auth/verify",
           {
             withCredentials: true, 
           }
@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
     try {
         setLoading(true);
       await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        "https://task-tracker-backend-8b5a.onrender.com/api/auth/logout",
         {},
         { withCredentials: true }
       );
