@@ -18,7 +18,7 @@ connecttodatabase()
 app.use(cookieParser());
 
 app.use(cors({
-    origin: "https://task-tracker-taupe-sigma.vercel.app/", 
+    origin: "https://task-tracker-taupe-sigma.vercel.app", 
     credentials: true, 
 }));
 app.use(express.json()); 
