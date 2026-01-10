@@ -37,7 +37,8 @@ const login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,        
-            secure: process.env.NODE_ENV === "production",
+            // secure: process.env.NODE_ENV === "production",
+            secure:true,
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000, 
         });
@@ -96,7 +97,8 @@ const signup = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            // secure: process.env.NODE_ENV === "production",
+            secure:true,
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
@@ -124,7 +126,8 @@ const logout = (req, res) => {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production",//
+            secure:true,
             sameSite: "none"
         });
 
