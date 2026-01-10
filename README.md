@@ -1,7 +1,9 @@
 # Task Tracker Web Application
 
+---
+
 ## Overview
-**Task Tracker** is a modern full-stack web application designed to help users manage their tasks efficiently. Unlike the basic assignment requirements, this project implements **user authentication with cookies & JWT tokens** and a **beautiful, responsive interface using Tailwind CSS**.  
+**Task Tracker** is a modern full-stack web application designed to help users manage their tasks efficiently. Unlike the basic assignment requirements, this project implements **user authentication with JWT tokens** and a **beautiful, responsive interface using Tailwind CSS**.  
 
 Users can **sign up, log in, add tasks, mark them as completed, and delete tasks**, all while enjoying a smooth and professional user experience.
 
@@ -12,7 +14,6 @@ Users can **sign up, log in, add tasks, mark them as completed, and delete tasks
 ### User Authentication
 - Secure **Sign Up** and **Login** functionality  
 - Passwords protected and JWT-based authentication  
-- Cookies used for session persistence  
 
 ### Task Management
 - Add new tasks with **Task Name, Description, Start Date, End Date, and Status**  
@@ -43,7 +44,6 @@ Users can **sign up, log in, add tasks, mark them as completed, and delete tasks
 ### Dashboard
 ![Dashboard](README-images/dashboard.png)
 
-
 ### Task Table with Mark Done & Delete Buttons
 ![Task Table with Mark Done & Delete Buttons](README-images/add-task.png)
 
@@ -56,46 +56,46 @@ Users can **sign up, log in, add tasks, mark them as completed, and delete tasks
 | Frontend    | React, Tailwind CSS          |
 | Backend     | Node.js, Express             |
 | Database    | MongoDB                      |
-| Auth        | JWT, Cookies                 |
+| Auth        | JWT                          |
 | HTTP Client | Axios                        |
 
 ---
 
 ## Installation & Setup
 
-1. **Clone the repository**
-
 ```bash
+# 1. Clone the repository
 git clone https://github.com/your-username/TaskTracker.git
 cd TaskTracker/NovaTechnology_assignment
 
-2. **Backend Setup**
-    cd Backend
-    npm install
-Create a .env file:
-    MONGO_URI=your_mongodb_connection_string
-    JWT_SECRET=your_jwt_secret
-    PORT=5000
+# 2. Backend Setup
+cd Backend
+npm install
 
-Run the server:
-    npm run dev
-Frontend Setup
-    cd ../Frontend
-    npm install
-    npm start
-##Project Structure
-NovaTechnology_assignment/
-├─ Frontend/        # React frontend
-├─ Backend/         # Node.js + Express backend
-├─ README.md        # Project documentation
+# Create a .env file in Backend directory
+echo "MONGO_URI=your_mongodb_connection_string" >> .env
+echo "JWT_SECRET=your_jwt_secret" >> .env
+echo "PORT=5000" >> .env
 
-## Live Demo 
-    Author
+# Run the backend server
+npm run dev
 
-Debesh Dinda
- MERN Stack Trainee
+# 3. Frontend Setup
+cd ../Frontend
+npm install
+npm start
 
-GitHub: https://github.com/debesh993
+# 4. Project Structure
+# NovaTechnology_assignment/
+# ├─ Frontend/        # React frontend
+# ├─ Backend/         # Node.js + Express backend
+# ├─ README.md        # Project documentation
 
-LinkedIn: https://www.linkedin.com/in/debesh-dinda-50b347301/
+# 5. Live Demo
+# https://task-tracker-taupe-sigma.vercel.app/
 
+# Author
+# Debesh Dinda
+# MERN Stack Trainee
+# GitHub: https://github.com/debesh993
+# LinkedIn: https://www.linkedin.com/in/debesh-dinda-50b347301/
