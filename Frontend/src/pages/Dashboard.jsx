@@ -4,7 +4,7 @@ import { useAuth } from "../Context/Authcontext";
 import DataTable from "react-data-table-component";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth(); // get loading from context
 
   const [tasks, setTasks] = useState([]);
   const [form, setForm] = useState({
@@ -16,29 +16,28 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Get token from user context
-  const token = user?.token;
+  // Get token from localStorage
+  const token = localStorage.getItem("token");
 
+  // Fetch tasks from backend
   const fetchTasks = async () => {
-    if (!token) return; // stop if no token
+    if (!token) return;
 
     try {
       const res = await axios.get(
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/get-tasks",
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setTasks(res.data.tasks);
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+    } catch (err) {
+      console.log(err.response?.data?.message || err.message);
     }
   };
 
   useEffect(() => {
-    fetchTasks();
+    if (token) fetchTasks();
   }, [token]);
 
   const handleChange = (e) => {
@@ -64,20 +63,22 @@ const Dashboard = () => {
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/add-task",
         form,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
+
+      // Reset form
       setForm({
         taskName: "",
         description: "",
         startDate: "",
         endDate: "",
       });
+
+      // Refresh tasks
       fetchTasks();
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }
@@ -89,14 +90,12 @@ const Dashboard = () => {
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/complete-task/${id}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       fetchTasks();
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+    } catch (err) {
+      console.log(err.response?.data?.message || err.message);
     }
   };
 
@@ -105,21 +104,29 @@ const Dashboard = () => {
       await axios.delete(
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/delete-task/${id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       fetchTasks();
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+    } catch (err) {
+      console.log(err.response?.data?.message || err.message);
     }
   };
 
+  // Show loading if auth is checking
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  // Show message if user is not logged in
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg text-red-600">Loading...</p>
+        <p className="text-lg text-red-600">Please login to access dashboard.</p>
       </div>
     );
   }
@@ -189,6 +196,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* Header */}
       <div className="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-600 px-6 h-16 z-50 shadow-md">
         <h2 className="text-xl font-semibold text-white">
           Welcome, {user.name}
@@ -203,6 +211,7 @@ const Dashboard = () => {
 
       <div className="h-16"></div>
 
+      {/* Add Task Form */}
       <div className="max-w-5xl mx-auto mt-6 bg-white p-6 rounded-xl shadow">
         <h3 className="text-lg font-semibold mb-4">Add New Task</h3>
         {error && <p className="text-red-600 mb-2">{error}</p>}
@@ -253,6 +262,7 @@ const Dashboard = () => {
         </form>
       </div>
 
+      {/* Task Table */}
       <div className="max-w-5xl mx-auto mt-6 bg-white p-6 rounded-xl shadow">
         <h3 className="text-lg font-semibold mb-4">Your Tasks</h3>
         {tasks.length === 0 ? (

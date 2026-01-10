@@ -47,7 +47,7 @@ import User from "../models/user.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const authHeader = req.headers.Authorization;
+    const authHeader = req.headers.authorization; // lowercase
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
@@ -57,13 +57,6 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Token not provided",
-      });
-    }
 
     const decoded = jwt.verify(token, process.env.JWT_KEY);
 
@@ -95,4 +88,3 @@ const authMiddleware = async (req, res, next) => {
 };
 
 export default authMiddleware;
-
