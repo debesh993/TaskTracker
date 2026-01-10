@@ -1,3 +1,6 @@
+#  LIVE DEMO
+# https://task-tracker-taupe-sigma.vercel.app/
+
 # Task Tracker Web Application
 
 ---
@@ -91,8 +94,7 @@ npm start
 # ├─ Backend/         # Node.js + Express backend
 # ├─ README.md        # Project documentation
 
-# 5. Live Demo
-# https://task-tracker-taupe-sigma.vercel.app/
+
 
 # Author
 # Debesh Dinda
