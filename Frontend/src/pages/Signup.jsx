@@ -29,8 +29,6 @@ const Signup = () => {
 
     if (!form.name.trim()) {
       newErrors.name = "Name is required";
-    } else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(form.name)) {
-      newErrors.name = "Name can contain only letters and spaces";
     } else if (form.name.length < 3 || form.name.length > 20) {
       newErrors.name = "Name must be between 3 and 20 characters";
     }
