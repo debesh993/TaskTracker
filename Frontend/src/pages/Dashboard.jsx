@@ -4,8 +4,7 @@ import { useAuth } from "../Context/Authcontext";
 import DataTable from "react-data-table-component";
 
 const Dashboard = () => {
-  const { user, logout, loading: authLoading } = useAuth(); // get loading from context
-
+  const { user, logout, loading: authLoading } = useAuth(); 
   const [tasks, setTasks] = useState([]);
   const [form, setForm] = useState({
     taskName: "",
@@ -16,10 +15,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Get token from localStorage
   const token = localStorage.getItem("token");
 
-  // Fetch tasks from backend
   const fetchTasks = async () => {
     if (!token) return;
 
@@ -67,7 +64,6 @@ const Dashboard = () => {
         }
       );
 
-      // Reset form
       setForm({
         taskName: "",
         description: "",
@@ -75,7 +71,6 @@ const Dashboard = () => {
         endDate: "",
       });
 
-      // Refresh tasks
       fetchTasks();
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -113,7 +108,6 @@ const Dashboard = () => {
     }
   };
 
-  // Show loading if auth is checking
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -122,7 +116,6 @@ const Dashboard = () => {
     );
   }
 
-  // Show message if user is not logged in
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -196,7 +189,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
       <div className="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-600 px-6 h-16 z-50 shadow-md">
         <h2 className="text-xl font-semibold text-white">
           Welcome, {user.name}
@@ -211,7 +203,6 @@ const Dashboard = () => {
 
       <div className="h-16"></div>
 
-      {/* Add Task Form */}
       <div className="max-w-5xl mx-auto mt-6 bg-white p-6 rounded-xl shadow">
         <h3 className="text-lg font-semibold mb-4">Add New Task</h3>
         {error && <p className="text-red-600 mb-2">{error}</p>}
@@ -262,7 +253,6 @@ const Dashboard = () => {
         </form>
       </div>
 
-      {/* Task Table */}
       <div className="max-w-5xl mx-auto mt-6 bg-white p-6 rounded-xl shadow">
         <h3 className="text-lg font-semibold mb-4">Your Tasks</h3>
         {tasks.length === 0 ? (
