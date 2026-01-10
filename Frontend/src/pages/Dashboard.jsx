@@ -20,7 +20,11 @@ const Dashboard = () => {
     try {
       const res = await axios.get(
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/get-tasks",
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            },
+          }
       );
       setTasks(res.data.tasks);
     } catch (error) {
@@ -53,7 +57,11 @@ const Dashboard = () => {
       await axios.post(
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/add-task",
         form,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setForm({
         taskName: "",
@@ -74,7 +82,11 @@ const Dashboard = () => {
       await axios.put(
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/complete-task/${id}`,
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       fetchTasks();
     } catch (error) {
@@ -86,7 +98,11 @@ const Dashboard = () => {
     try {
       await axios.delete(
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/delete-task/${id}`,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       fetchTasks();
     } catch (error) {

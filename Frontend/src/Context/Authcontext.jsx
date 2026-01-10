@@ -1,3 +1,67 @@
+// import { createContext, useContext, useEffect, useState } from "react";
+// import axios from "axios";
+
+// const userContext = createContext();
+
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const verifyUser = async () => {
+//       try {
+//         const response = await axios.get(
+//           "https://task-tracker-backend-8b5a.onrender.com/api/auth/verify",
+//           {
+//             withCredentials: true, 
+//           }
+//         );
+
+//         if (response.data.success) {
+//           setUser(response.data.user);
+//         } else {
+//             console.log(response.data.error)
+//           setUser(null);
+//         }
+//       } catch (error) {
+//         console.log(error.response?.data?.message || error.message);
+//         setUser(null);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     verifyUser();
+//   }, []);
+
+//   const login = (userData) => {
+//     setUser(userData);
+//   };
+
+//   const logout = async () => {
+//     try {
+//         setLoading(true);
+//       await axios.post(
+//         "https://task-tracker-backend-8b5a.onrender.com/api/auth/logout",
+//         {},
+//         { withCredentials: true }
+//       );
+//     } catch (error) {
+//     } finally {
+//       setUser(null);
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <userContext.Provider value={{ user, loading, login, logout }}>
+//       {children}
+//     </userContext.Provider>
+//   );
+// };
+
+// export const useAuth = () => useContext(userContext);
+// export default AuthProvider;
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,21 +74,29 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           "https://task-tracker-backend-8b5a.onrender.com/api/auth/verify",
           {
-            withCredentials: true, 
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
         if (response.data.success) {
           setUser(response.data.user);
         } else {
-            console.log(response.data.error)
           setUser(null);
         }
       } catch (error) {
-        console.log(error.response?.data?.message || error.message);
         setUser(null);
       } finally {
         setLoading(false);
@@ -40,14 +112,21 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-        setLoading(true);
+      setLoading(true);
+      const token = localStorage.getItem("token");
+
       await axios.post(
         "https://task-tracker-backend-8b5a.onrender.com/api/auth/logout",
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
     } catch (error) {
     } finally {
+      localStorage.removeItem("token"); // ✅ remove JWT
       setUser(null);
       setLoading(false);
     }
