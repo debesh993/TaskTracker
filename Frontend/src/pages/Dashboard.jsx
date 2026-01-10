@@ -14,27 +14,32 @@ const Dashboard = () => {
     endDate: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
+
+  // Get token from user context
+  const token = user?.token;
 
   const fetchTasks = async () => {
+    if (!token) return; // stop if no token
+
     try {
       const res = await axios.get(
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/get-tasks",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            },
-          }
+          },
+        }
       );
       setTasks(res.data.tasks);
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response?.data?.message || error.message);
     }
   };
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [token]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -42,7 +47,8 @@ const Dashboard = () => {
 
   const handleAddTask = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
+
     if (form.taskName.length >= 50) {
       setError("Task Name must be less than 50 characters");
       return;
@@ -71,7 +77,7 @@ const Dashboard = () => {
       });
       fetchTasks();
     } catch (error) {
-      console.log(error.response?.data?.message);
+      console.log(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
@@ -90,7 +96,7 @@ const Dashboard = () => {
       );
       fetchTasks();
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response?.data?.message || error.message);
     }
   };
 
@@ -106,7 +112,7 @@ const Dashboard = () => {
       );
       fetchTasks();
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response?.data?.message || error.message);
     }
   };
 
@@ -119,68 +125,67 @@ const Dashboard = () => {
   }
 
   const columns = [
-  {
-    name: "Task",
-    selector: (row) => row.taskName,
-    cell: (row) => (
-      <div>
-        <p className="font-medium">{row.taskName}</p>
-        <p className="text-sm text-gray-500">{row.description}</p>
-      </div>
-    ),
-    sortable: true,
-  },
-  {
-    name: "Start",
-    selector: (row) => row.startDate,
-    cell: (row) => new Date(row.startDate).toLocaleDateString(),
-    sortable: true,
-  },
-  {
-    name: "End",
-    selector: (row) => row.endDate,
-    cell: (row) => new Date(row.endDate).toLocaleDateString(),
-    sortable: true,
-  },
-  {
-    name: "Status",
-    selector: (row) => row.status,
-    cell: (row) => (
-      <span
-        className={`px-2 py-1 rounded text-sm ${
-          row.status === "fulfilled"
-            ? "bg-green-100 text-green-700"
-            : "bg-yellow-100 text-yellow-700"
-        }`}
-      >
-        {row.status}
-      </span>
-    ),
-    sortable: true,
-  },
-  {
-    name: "Actions",
-    cell: (row) => (
-      <div className="flex flex-col sm:flex-row sm:gap-2 gap-1">
-        {row.status === "pending" && (
-          <button
-            onClick={() => markCompleted(row._id)}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-1 sm:px-1 py-1 rounded-md text-xs sm:text-sm w-full sm:w-auto"
-          >
-            Mark Done
-          </button>
-        )}
-        <button
-          onClick={() => deleteTask(row._id)}
-          className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1 py-1 rounded-md text-xs sm:text-sm w-full sm:w-auto"
+    {
+      name: "Task",
+      selector: (row) => row.taskName,
+      cell: (row) => (
+        <div>
+          <p className="font-medium">{row.taskName}</p>
+          <p className="text-sm text-gray-500">{row.description}</p>
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Start",
+      selector: (row) => row.startDate,
+      cell: (row) => new Date(row.startDate).toLocaleDateString(),
+      sortable: true,
+    },
+    {
+      name: "End",
+      selector: (row) => row.endDate,
+      cell: (row) => new Date(row.endDate).toLocaleDateString(),
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`px-2 py-1 rounded text-sm ${
+            row.status === "fulfilled"
+              ? "bg-green-100 text-green-700"
+              : "bg-yellow-100 text-yellow-700"
+          }`}
         >
-          Delete
-        </button>
-      </div>
-    ),
-  },
-];
-
+          {row.status}
+        </span>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex flex-col sm:flex-row sm:gap-2 gap-1">
+          {row.status === "pending" && (
+            <button
+              onClick={() => markCompleted(row._id)}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-1 sm:px-1 py-1 rounded-md text-xs sm:text-sm w-full sm:w-auto"
+            >
+              Mark Done
+            </button>
+          )}
+          <button
+            onClick={() => deleteTask(row._id)}
+            className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1 py-1 rounded-md text-xs sm:text-sm w-full sm:w-auto"
+          >
+            Delete
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-100">
