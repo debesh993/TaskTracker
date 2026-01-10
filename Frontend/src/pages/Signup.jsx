@@ -73,7 +73,8 @@ const Signup = () => {
       );
 
       if (res.data.success === true) {
-        login(res.data.user, res.data.token);
+        localStorage.setItem("token", res.data.token);
+        login(res.data.user);
         navigate("/dashboard");
       }
     } catch (error) {
