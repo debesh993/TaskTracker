@@ -77,7 +77,7 @@ const Signup = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      setServerError("Something went wrong. Please try again.");
+      setServerError(error.response?.data?.message);
     } finally {
       setLoading(false);
     }
