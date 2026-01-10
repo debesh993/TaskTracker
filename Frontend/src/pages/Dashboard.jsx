@@ -27,7 +27,7 @@ const Dashboard = () => {
       const res = await axios.get(
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/get-tasks",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authorization: `Bearer ${token}` },
         }
       );
       setTasks(res.data.tasks);
@@ -63,7 +63,7 @@ const Dashboard = () => {
         "https://task-tracker-backend-8b5a.onrender.com/api/tasks/add-task",
         form,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authorization: `Bearer ${token}` },
         }
       );
 
@@ -90,7 +90,7 @@ const Dashboard = () => {
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/complete-task/${id}`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authorization: `Bearer ${token}` },
         }
       );
       fetchTasks();
@@ -104,7 +104,7 @@ const Dashboard = () => {
       await axios.delete(
         `https://task-tracker-backend-8b5a.onrender.com/api/tasks/delete-task/${id}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authorization: `Bearer ${token}` },
         }
       );
       fetchTasks();
