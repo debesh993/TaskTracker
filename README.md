@@ -88,7 +88,7 @@ npm install
 npm start
 
 # 4. Project Structure
-# NovaTechnology_assignment/
+#  assignment/
 # ├─ Frontend/        # React frontend
 # ├─ Backend/         # Node.js + Express backend
 # ├─ README.md        # Project documentation
