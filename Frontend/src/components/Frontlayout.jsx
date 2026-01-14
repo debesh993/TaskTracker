@@ -9,13 +9,13 @@ const LandingPage = () => {
           <div className="flex gap-4">
             <Link
               to="/signup"
-              className="bg-emerald-500 hover:bg-emerald-600 px-1 py-1 rounded-md shadow-md text-white transition duration-300"
+              className="bg-emerald-500 hover:bg-emerald-600 px-1 py-1 md:px-3 md:py-2 rounded-md shadow-md text-white transition duration-300"
             >
               Sign Up
             </Link>
             <Link
               to="/login"
-              className="bg-white text-blue-600 hover:bg-gray-100 px-1 py-1 rounded-md shadow-md transition duration-300"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-1 py-1 md:px-3 md:py-2 rounded-md shadow-md transition duration-300"
             >
               Login
             </Link>
